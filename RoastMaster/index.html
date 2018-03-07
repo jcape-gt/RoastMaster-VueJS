@@ -1,0 +1,137 @@
+<html>
+	<head>
+		<link href='styles/bootstrap.min.css' rel='stylesheet' type='text/css' />
+		<link href='styles/site.css' rel='stylesheet' type='text/css' />
+		<link href='styles/bean.css' rel='stylesheet' type='text/css' />
+
+		<style>
+	        .title {
+	            font-family: 'Lato', sans-serif;
+	            text-align: center;
+	        }
+
+	        .timer {
+	            font-family: 'Lato', sans-serif;
+	        }
+
+	        body {
+	            background-image: url('resources/green_cup.png');
+	            background-repeat: repeat;
+	        }
+
+	        select {
+	            display: block;
+	            margin: 0 auto;
+	        }
+    	</style>
+
+    	<script>
+    		var roastModel = {
+    			speciesList: [
+	    			{ ID: 1, Name: 'Coffea Arabica', RoastTime: 420 },
+	    			{ ID: 2, Name: 'Coffea Robusta', RoastTime: 480 },
+    			],
+    			coffeeList : [
+	    			{ ID: 1, Name: 'Guatemala Huehuetenango', SpeciesId: 1 },
+	    			{ ID: 2, Name: 'Guatemala Acatenango Gesha', SpeciesId: 1 },
+	    			{ ID: 3, Name: 'Ethiopian Harar', SpeciesId: 2 },
+	    			{ ID: 4, Name: 'Sumatra Lintong', SpeciesId: 2 },
+    			],
+    			roastTypeList: [
+	    			{ID: 1, Name: 'Green', RoastPercent: 0.01},
+	    			{ID: 2, Name: 'American', RoastPercent: 0.4},
+	    			{ID: 3, Name: 'City', RoastPercent: 0.5},
+	    			{ID: 4, Name: 'City+', RoastPercent: 0.55},
+	    			{ID: 5, Name: 'Full City', RoastPercent: 0.6},
+	    			{ID: 6, Name: 'Full City+', RoastPercent: 0.65},
+	    			{ID: 7, Name: 'Vienna', RoastPercent: 0.75},
+	    			{ID: 8, Name: 'Charcoal', RoastPercent: 1.0},
+    			]
+    		};
+
+    		window.onload = function() {
+    			loadVue();
+    		}
+
+    		function loadVue() {
+    			var v1 = new Vue({
+    				el: '#form',
+    				data: roastModel
+    			});
+    		}
+
+    	</script>
+
+	</head>
+
+	<body>
+		<div class="container body-content">
+			<h1 class="title" style="font-weight: bolder">Coffee Roasting Timer</h1>
+
+			<div id='form' class="row">
+			    <div class="form-group col-md-6 col-lg-6 offset-md-3">
+			        <select class="form-control" id="coffeeType">
+			            <option disabled selected>[Coffee]</option>
+			            <optgroup v-for="species in speciesList" v-bind:label='species.Name'>
+			            	<option v-for="coffee in coffeeList" v-if="species.ID == coffee.SpeciesId" v-bind:value="species.RoastTime">{{coffee.Name}}</option>
+			            </optgroup>
+			        </select>
+
+			        <select class="form-control" onchange="roastTypeChanged(this)" id="roastType">
+			        	<option disabled selected>[Roast Type]</option>
+			        	<option v-for="roastType in roastTypeList" v-bind:value="roastType.RoastPercent">{{roastType.Name}}</option>
+			        </select>
+			    </div>
+		    </div>
+		    <div class="row">
+			    <div class="col-md-12 col-lg-12 text-center">
+			        <button id="timerControl" type="button" class="btn btn-primary">Roast!</button>
+			        <button id="resetControl" type="button" class="btn" disabled>Reset</button>
+			        <div id="timer" style="visibility: hidden"> 00:00 </div>
+			    </div>
+			</div>
+
+			<div class="container">
+			    <div class="row">
+			        <div class="col-md-12 text-center">
+			            <div style="width: 100px; height:100px; position:relative; margin: 0 auto;">
+			                <!-- small circle -->
+			                <svg version="1.1" baseProfile="full" style="float: left; top:0; left: 0; position:absolute"
+			                     width="100" height="100">
+			                    <circle id="smallCircle" style="z-index:50" cx="50" cy="50" r="42" stroke="blue" stroke-width="3" fill="none" />
+
+			                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360" to="0" dur="3.0s" additive="sum" repeatCount="indefinite" />
+			                </svg>
+
+			                <!-- larger circle -->
+			                <svg version="1.1" baseProfile="full" style="float:left; top:0; left: 0; position: absolute"
+			                     width="100" height="100">
+			                    <circle id="largeCircle" cx="50" cy="50" r="48" stroke="blue" stroke-width="3" fill="none" />
+
+			                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0" to="360" dur="2.5s" additive="sum" repeatCount="indefinite" />
+			                </svg>
+
+			                <!-- bean -->
+			                <svg version="1.1" baseProfile="full" style="float:left; top:0; left: 0; position: absolute"
+			                     width="100" height="100"
+			                     xmlns="http://www.w3.org/2000/svg">
+			                    <rect class="bean" width="46" height="70" x="27" y="15" stroke="#2B2117" stroke-width="1.5" rx="25" fill="transparent" />
+
+			                    <ellipse class="beanInner" cx="50" cy="50" rx="2" ry="30" stroke="#000" fill="transparent" stroke-width="1.5" />
+			                </svg>
+			            </div>
+			        </div>
+			    </div> <!-- row -->
+			</div> <!-- container -->
+
+		</div> <!-- container -body-content -->
+
+		<!-- Load Scripts -->
+		<script src='scripts/jquery-1.10.2.min.js'></script>
+		<script src='scripts/bootstrap.min.js'></script>
+		<script src='scripts/main.js'></script>
+		<script src='scripts/vue.js'></script>
+		<script src='scripts/tinycolor.js'></script>
+		<script src='scripts/tinygradient.min.js'></script>
+	</body>
+</html>

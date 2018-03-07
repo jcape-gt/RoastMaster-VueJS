@@ -1,0 +1,96 @@
+﻿/* Styling for SVG coffee bean and progress circles */
+
+/* 
+    [Refactor] : Bean styling is divided between CSS and JavaScript. 
+    All could be achieved with CSS if current HSV color gradient processing
+    is translated to HSL. 
+*/
+.bean {
+    fill: #8c9361;
+}
+
+.beanInner {
+    fill: #222;
+    opacity: 0.5;
+}
+
+#smallCircle {
+    stroke-dasharray: 0 264;
+}
+
+.smallCircleShow {
+    animation: smallShow 1s linear forwards;
+}
+
+.smallCircleHide {
+    animation: smallHide 0.5s linear forwards;
+}
+
+#largeCircle {
+    stroke-dasharray: 0 302;
+}
+
+.largeCircleShow {
+    animation: largeShow 1s linear forwards;
+}
+
+.largeCircleHide {
+    animation: largeHide 0.5s linear forwards;
+}
+
+
+/*
+    Roasting color animation: 
+    @keyframes animColor2 {
+  0% {
+    background: hsl(68.4, 20.5%, 47.8%);
+  }
+  
+  20% {
+    background: hsl(45.7, 43%, 53.9%);
+  }
+  100% {
+    background: hsl(30, 30.3%, 12.9%);
+  }
+}
+*/
+
+@keyframes smallShow {
+    from {
+        stroke-dasharray: 0 264;
+    }
+
+    to {
+        stroke-dasharray: 66 198;
+    }
+}
+
+@keyframes smallHide {
+    from {
+        stroke-dasharray: 66 198;
+    }
+
+    to {
+        stroke-dasharray: 0 264;
+    }
+}
+
+@keyframes largeShow {
+    from {
+        stroke-dasharray: 0 302;
+    }
+
+    to {
+        stroke-dasharray: 75 226;
+    }
+}
+
+@keyframes largeHide {
+    from {
+        stroke-dasharray: 75 226;
+    }
+
+    to {
+        stroke-dasharray: 0 302;
+    }
+}
